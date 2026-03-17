@@ -1,0 +1,21 @@
+# *
+User-agent: *
+Allow: /
+
+# GPTBot
+User-agent: GPTBot
+Allow: /
+
+# ClaudeBot
+User-agent: ClaudeBot
+Allow: /
+
+# *
+User-agent: *
+Disallow: /api/
+
+# Host
+Host: https://thestudyabroadconsultant.ca
+
+# Sitemaps
+Sitemap: https://thestudyabroadconsultant.ca/sitemap.xml
