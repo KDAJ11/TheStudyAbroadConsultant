@@ -1,68 +1,103 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { SectionFade } from '@/components/ui/SectionFade'
 
 const destinations = [
-  { name: 'Canada', slug: 'canada', flag: '🇨🇦', stat: 'Up to 3yr Post-Study Work', gradient: 'linear-gradient(135deg, #8B0000, #CC0000, #FF4444)' },
-  { name: 'United Kingdom', slug: 'uk', flag: '🇬🇧', stat: '2yr Graduate Visa', gradient: 'linear-gradient(135deg, #012169, #C8102E, #8B0000)' },
-  { name: 'USA', slug: 'usa', flag: '🇺🇸', stat: '12–36mo OPT', gradient: 'linear-gradient(135deg, #002868, #3C3B6E, #BF0A30)' },
-  { name: 'Ireland', slug: 'ireland', flag: '🇮🇪', stat: 'EU Access · English-Speaking', gradient: 'linear-gradient(135deg, #169B62, #1a7a4a, #0d5c35)' },
-  { name: 'Germany', slug: 'germany', flag: '🇩🇪', stat: 'Near-Zero Tuition Available', gradient: 'linear-gradient(135deg, #1a1a1a, #2d2d2d, #D4A017)' },
-  { name: 'Australia', slug: 'australia', flag: '🇦🇺', stat: 'Unlimited Work Rights', gradient: 'linear-gradient(135deg, #00843D, #2d7a3e, #FFCD00)' },
+  { name: 'Canada', slug: 'canada', flag: '🇨🇦', benefit: 'Up to 3yr Post-Study Work', accentColor: '#FF0000' },
+  { name: 'United Kingdom', slug: 'uk', flag: '🇬🇧', benefit: '2yr Graduate Visa', accentColor: '#012169' },
+  { name: 'USA', slug: 'usa', flag: '🇺🇸', benefit: '12–36mo OPT Work Rights', accentColor: '#B22234' },
+  { name: 'Ireland', slug: 'ireland', flag: '🇮🇪', benefit: 'EU Access · English-Speaking', accentColor: '#169B62' },
+  { name: 'Germany', slug: 'germany', flag: '🇩🇪', benefit: 'Near-Zero Tuition Available', accentColor: '#FFCE00' },
+  { name: 'Australia', slug: 'australia', flag: '🇦🇺', benefit: 'Unlimited Work Rights', accentColor: '#00843D' },
 ]
 
 export function DestinationCards() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    let cleanup: (() => void) | undefined
+
+    async function initGsap() {
+      const gsapModule = await import('gsap')
+      const scrollModule = await import('gsap/ScrollTrigger')
+      const gsap = gsapModule.default
+      const ScrollTrigger = scrollModule.ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger)
+
+      if (!sectionRef.current) return
+
+      const cards = sectionRef.current.querySelectorAll('.destination-card')
+      gsap.from(cards, {
+        y: 40,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.out',
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 80%',
+        },
+      })
+
+      cleanup = () => {
+        ScrollTrigger.getAll().forEach((t) => t.kill())
+      }
+    }
+
+    initGsap()
+    return () => cleanup?.()
+  }, [])
+
   return (
-    <section id="destinations" className="bg-white py-section">
+    <section id="destinations" ref={sectionRef} className="destinations-section bg-white py-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionFade>
-          <div className="text-center mb-12">
-            <p className="text-label text-sky-500 uppercase tracking-widest mb-3">Destinations</p>
-            <h2 className="text-display-lg font-display font-bold text-navy-900">
-              Where Will You Study?
-            </h2>
-          </div>
-        </SectionFade>
+        <div className="text-center mb-12">
+          <p className="text-label text-sky-500 uppercase tracking-widest mb-3">Destinations</p>
+          <h2 className="text-display-lg font-display font-bold text-navy-900">
+            Where Will You Study?
+          </h2>
+        </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {destinations.map((dest, i) => (
-            <SectionFade key={dest.slug} delay={i * 0.08}>
-              <Link
-                href={`/destinations/${dest.slug}`}
-                className="group relative block overflow-hidden rounded-card min-h-[280px] cursor-pointer"
-              >
-                {/* Gradient background */}
-                <div
-                  className="absolute inset-0 transition-transform duration-300 group-hover:scale-[1.03]"
-                  style={{ background: dest.gradient }}
-                />
-                {/* Noise texture overlay */}
-                <svg className="absolute inset-0 w-full h-full opacity-[0.05]" aria-hidden="true">
-                  <filter id={`noise-${dest.slug}`}>
-                    <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" />
-                  </filter>
-                  <rect width="100%" height="100%" filter={`url(#noise-${dest.slug})`} />
-                </svg>
-                {/* Ireland navy overlay */}
-                {dest.slug === 'ireland' && (
-                  <div className="absolute inset-0 bg-navy-900/40" />
-                )}
-                {/* Flag decorative */}
-                <span
-                  className="absolute top-4 right-4 text-5xl opacity-60 transition-transform duration-300 group-hover:-translate-y-1.5"
-                  aria-hidden="true"
-                >
-                  {dest.flag}
-                </span>
-                {/* Country info */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="font-display font-bold text-white text-display-sm mb-1">{dest.name}</h3>
-                  <p className="text-white/80 text-body-sm">{dest.stat}</p>
-                </div>
-                {/* Hover ring */}
-                <div className="absolute inset-0 rounded-card ring-0 group-hover:ring-2 ring-sky-400/40 transition-all duration-300" />
-              </Link>
-            </SectionFade>
+          {destinations.map((dest) => (
+            <Link
+              key={dest.slug}
+              href={`/destinations/${dest.slug}`}
+              aria-label={`Learn more about studying in ${dest.name}`}
+              className="destination-card group block bg-white rounded-2xl border border-surface-4 p-6 transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover"
+              style={{
+                borderTopWidth: '2px',
+                borderTopColor: 'transparent',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.borderTopColor = dest.accentColor
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.borderTopColor = 'transparent'
+              }}
+            >
+              <span className="text-4xl block mb-3" aria-hidden="true">{dest.flag}</span>
+              <h3 className="font-display font-semibold text-navy-900 text-lg">{dest.name}</h3>
+              <p className="text-text-secondary text-body-sm mt-1">{dest.benefit}</p>
+              <span className="inline-flex items-center gap-1 text-sky-500 text-body-sm font-medium mt-4 group-hover:gap-2 transition-all">
+                Learn More →
+              </span>
+            </Link>
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/destinations"
+            aria-label="Explore all study destinations"
+            className="inline-flex items-center gap-1 text-sky-500 font-display font-semibold text-body-lg hover:text-sky-600 transition-colors hover:gap-2"
+          >
+            Explore All Destinations →
+          </Link>
         </div>
       </div>
     </section>

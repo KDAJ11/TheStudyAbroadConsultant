@@ -8,7 +8,13 @@ export function TrustBar() {
     'SRH University',
     'University of Limerick',
     'University of Waterloo',
+    'University of Birmingham',
+    'Carleton University',
+    'University College Dublin',
+    'Griffith University',
   ]
+
+  const doubled = [...universities, ...universities]
 
   return (
     <section className="bg-surface-2 py-10 overflow-hidden">
@@ -18,13 +24,12 @@ export function TrustBar() {
         </p>
       </div>
 
-      {/* Desktop: static grid */}
-      <div className="hidden md:block max-w-5xl mx-auto px-4">
-        <div className="flex flex-wrap justify-center gap-3">
-          {universities.map((uni) => (
+      <div className="relative overflow-hidden">
+        <div className="marquee-track flex w-max gap-3">
+          {doubled.map((uni, i) => (
             <span
-              key={uni}
-              className="px-4 py-2 rounded-pill border border-surface-4 text-navy-900 text-body-sm font-medium bg-white"
+              key={`${uni}-${i}`}
+              className="px-5 py-2 rounded-full border border-black/[0.12] text-navy-900 text-body-sm font-medium bg-white whitespace-nowrap transition-colors duration-200 hover:bg-navy-900 hover:text-white hover:border-navy-900 cursor-default select-none"
             >
               {uni}
             </span>
@@ -32,19 +37,29 @@ export function TrustBar() {
         </div>
       </div>
 
-      {/* Mobile: marquee */}
-      <div className="md:hidden relative">
-        <div className="flex animate-[marquee_30s_linear_infinite] w-max">
-          {[...universities, ...universities].map((uni, i) => (
-            <span
-              key={`${uni}-${i}`}
-              className="mx-2 px-4 py-2 rounded-pill border border-surface-4 text-navy-900 text-body-sm font-medium bg-white whitespace-nowrap"
-            >
-              {uni}
-            </span>
-          ))}
-        </div>
-      </div>
+      <style>{`
+        .marquee-track {
+          animation: marquee 28s linear infinite;
+        }
+        .marquee-track:hover {
+          animation-play-state: paused;
+        }
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .marquee-track {
+            animation: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: auto;
+            max-width: 64rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+          }
+        }
+      `}</style>
     </section>
   )
 }
