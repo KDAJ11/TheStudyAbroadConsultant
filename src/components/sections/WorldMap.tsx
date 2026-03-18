@@ -80,7 +80,7 @@ export function WorldMap({ hoveredCountry, onCountryHover }: WorldMapProps) {
   }, [activeCountry])
 
   const handleMarkerEnter = useCallback(
-    (slug: DestSlug, e: React.MouseEvent | React.FocusEvent) => {
+    (slug: DestSlug, _e: React.MouseEvent | React.FocusEvent) => {
       onCountryHover(slug)
       // Calculate tooltip position relative to container
       if (containerRef.current) {

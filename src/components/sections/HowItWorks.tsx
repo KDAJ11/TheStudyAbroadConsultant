@@ -1,7 +1,7 @@
 'use client'
 
 import { Phone, ClipboardList, Plane, GraduationCap } from 'lucide-react'
-import { motion, useReducedMotion, useInView } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 import { ClipReveal } from '@/components/animations/ClipReveal'
 import { SITE } from '@/lib/constants'
@@ -33,12 +33,10 @@ const ease = [0.16, 1, 0.3, 1] as const
 
 /* ─── Animated SVG circle for step number ─── */
 function AnimatedStepCircle({
-  number,
   icon: Icon,
   delay,
   size = 64,
 }: {
-  number: number
   icon: typeof Phone
   delay: number
   size?: number
@@ -209,7 +207,7 @@ export function HowItWorks() {
                 <div key={step.title} className="contents">
                   <div className="flex flex-col items-center text-center" style={{ flex: '0 0 auto' }}>
                     <AnimatedStepCircle
-                      number={i + 1}
+
                       icon={Icon}
                       delay={timing.circle}
                     />
@@ -238,7 +236,6 @@ export function HowItWorks() {
               <div key={step.title} className="process-step flex gap-4">
                 <div className="flex flex-col items-center">
                   <AnimatedStepCircle
-                    number={i + 1}
                     icon={Icon}
                     delay={timing.circle}
                     size={48}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { ArrowDown } from 'lucide-react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { SITE } from '@/lib/constants'
