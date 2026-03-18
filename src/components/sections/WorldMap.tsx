@@ -80,7 +80,7 @@ export function WorldMap({ hoveredCountry, onCountryHover }: WorldMapProps) {
   }, [activeCountry])
 
   const handleMarkerEnter = useCallback(
-    (slug: DestSlug, _e: React.MouseEvent | React.FocusEvent) => {
+    (slug: DestSlug) => {
       onCountryHover(slug)
       // Calculate tooltip position relative to container
       if (containerRef.current) {
@@ -208,7 +208,7 @@ export function WorldMap({ hoveredCountry, onCountryHover }: WorldMapProps) {
             strokeWidth={activeCountry === dest.slug ? 1.2 : 0.5}
             className="transition-all duration-200"
             style={{ cursor: 'pointer' }}
-            onMouseEnter={(e) => handleMarkerEnter(dest.slug, e)}
+            onMouseEnter={() => handleMarkerEnter(dest.slug)}
             onMouseLeave={handleMarkerLeave}
             onClick={(e) => {
               if (isMobile) {
@@ -236,9 +236,9 @@ export function WorldMap({ hoveredCountry, onCountryHover }: WorldMapProps) {
                 role="button"
                 tabIndex={0}
                 aria-label={`Learn more about studying in ${dest.name}`}
-                onMouseEnter={(e) => handleMarkerEnter(dest.slug, e)}
+                onMouseEnter={() => handleMarkerEnter(dest.slug)}
                 onMouseLeave={handleMarkerLeave}
-                onFocus={(e) => handleMarkerEnter(dest.slug, e)}
+                onFocus={() => handleMarkerEnter(dest.slug)}
                 onBlur={handleMarkerLeave}
                 onClick={(e) => {
                   if (isMobile) {
