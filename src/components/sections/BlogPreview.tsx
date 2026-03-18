@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Clock, ArrowRight } from 'lucide-react'
+import { ClipReveal } from '@/components/animations/ClipReveal'
 
 const previewPosts = [
   {
@@ -34,62 +35,68 @@ export function BlogPreview() {
   return (
     <section className="bg-white py-section">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <p className="text-label text-sky-500 uppercase tracking-widest mb-3">Resources</p>
-          <h2 className="text-display-lg font-display font-bold text-navy-900">
-            From the Blog
-          </h2>
-        </div>
+        {/* Section heading */}
+        <ClipReveal>
+          <div className="text-center mb-12">
+            <p className="text-label text-sky-500 uppercase tracking-widest mb-3">Resources</p>
+            <h2 className="text-display-lg font-display font-bold text-navy-900">
+              From the Blog
+            </h2>
+          </div>
+        </ClipReveal>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {previewPosts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/blog/${post.slug}`}
-              aria-label={`Read article: ${post.title}`}
-              className="group block h-full"
-            >
-              <article
-                className="bg-white rounded-2xl border border-surface-4 overflow-hidden h-full flex flex-col transition-all duration-200 hover:-translate-y-[3px] hover:shadow-card-hover"
-                style={{ borderTopWidth: '3px', borderTopColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderTopColor = post.accentColor
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderTopColor = 'transparent'
-                }}
+          {previewPosts.map((post, index) => (
+            <ClipReveal key={post.slug} delay={index * 0.15}>
+              <Link
+                href={`/blog/${post.slug}`}
+                aria-label={`Read article: ${post.title}`}
+                className="group block h-full"
               >
-                <div className="p-6 flex flex-col flex-1">
-                  <span className={`text-label uppercase tracking-widest ${post.categoryColor} mb-3`}>
-                    {post.category}
-                  </span>
-                  <h3 className="font-display font-semibold text-navy-900 text-body-lg group-hover:text-sky-500 transition-colors mb-4 line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <div className="mt-auto pt-4 border-t border-surface-4 flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-text-muted text-body-sm">
-                      <Clock className="w-4 h-4" aria-hidden="true" />
-                      {post.readTime}
+                <article
+                  className="bg-white rounded-2xl border border-surface-4 overflow-hidden h-full flex flex-col transition-all duration-200 hover:-translate-y-[6px] hover:shadow-card-hover"
+                  style={{ borderTopWidth: '3px', borderTopColor: 'transparent' }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderTopColor = post.accentColor
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderTopColor = 'transparent'
+                  }}
+                >
+                  <div className="p-6 flex flex-col flex-1">
+                    <span className={`text-label uppercase tracking-widest ${post.categoryColor} mb-3`}>
+                      {post.category}
                     </span>
-                    <span className="flex items-center gap-1 text-sky-500 text-body-sm font-medium group-hover:gap-2 transition-all">
-                      Read Article <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                    </span>
+                    <h3 className="font-display font-semibold text-navy-900 text-body-lg group-hover:text-sky-500 transition-colors mb-4 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <div className="mt-auto pt-4 border-t border-surface-4 flex items-center justify-between">
+                      <span className="flex items-center gap-1.5 text-text-muted text-body-sm">
+                        <Clock className="w-4 h-4" aria-hidden="true" />
+                        {post.readTime}
+                      </span>
+                      <span className="flex items-center gap-1 text-sky-500 text-body-sm font-medium group-hover:gap-2 transition-all">
+                        Read Article <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </article>
-            </Link>
+                </article>
+              </Link>
+            </ClipReveal>
           ))}
         </div>
 
-        <div className="mt-10 text-center">
-          <Link
-            href="/blog"
-            aria-label="View all blog articles"
-            className="inline-flex items-center gap-1 text-sky-500 font-display font-semibold text-body-lg hover:text-sky-600 transition-colors hover:gap-2"
-          >
-            View All Articles →
-          </Link>
-        </div>
+        <ClipReveal delay={0.3}>
+          <div className="mt-10 text-center">
+            <Link
+              href="/blog"
+              aria-label="View all blog articles"
+              className="inline-flex items-center gap-1 text-sky-500 font-display font-semibold text-body-lg hover:text-sky-600 transition-colors hover:gap-2"
+            >
+              View All Articles →
+            </Link>
+          </div>
+        </ClipReveal>
       </div>
     </section>
   )
