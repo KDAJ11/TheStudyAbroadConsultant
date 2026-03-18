@@ -6,6 +6,11 @@ export const SITE = {
   whatsapp: 'https://wa.me/2348187861554',
   phone: '+234 818 786 1554',
   email: 'cc.canadastudyadvisor@gmail.com',
+  socials: {
+    facebook: 'https://www.facebook.com/share/1AYxrWfT5f/',
+    instagram: 'https://www.instagram.com/thestudyabroad_consultant',
+    tiktok: 'https://www.tiktok.com/@thestudyabroadconsultant',
+  },
   stats: {
     students: { value: 700, display: '700+', label: 'Students Placed' },
     visaSuccess: { value: 98, display: '98%', label: 'Visa Success Rate' },

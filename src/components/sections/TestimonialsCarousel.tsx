@@ -2,52 +2,28 @@ import { SectionFade } from '@/components/ui/SectionFade'
 
 const testimonials = [
   {
-    quote: "I applied to 4 universities and got offers from 3. The visa interview prep was what made the difference — I walked into the embassy completely calm.",
-    name: 'Emeka A.',
-    city: 'Abuja',
+    quote: "I wanted to take a moment to express my heartfelt gratitude for the assistance you provided my son, during the admission process at the University of Manitoba. Your guidance and support were invaluable, and we are truly grateful for your help. Your professionalism and expertise made a significant difference in our experience.",
+    name: 'Mrs. O',
+    date: 'Oct 2025',
     destination: 'University of Manitoba',
     flag: '🇨🇦',
     country: 'Canada',
   },
   {
-    quote: "They got my WAEC and transcript documents right the first time. I had friends who paid for failed visa applications before finding this team.",
-    name: 'Blessing O.',
-    city: 'Lagos',
-    destination: 'University of Essex',
-    flag: '🇬🇧',
-    country: 'UK',
+    quote: "My admission and loan process was handled smoothly and faster than I expected. I really appreciate the support. Highly recommend.",
+    name: 'Gift',
+    date: 'Mar 2026',
+    destination: '',
+    flag: '',
+    country: '',
   },
   {
-    quote: "The Naira cost breakdown helped my parents understand exactly what we were committing to. No surprises.",
-    name: 'Taiwo F.',
-    city: 'Ibadan',
-    destination: 'University of Limerick',
-    flag: '🇮🇪',
-    country: 'Ireland',
-  },
-  {
-    quote: "My IELTS was 6.5 and they still found me three strong options in Canada.",
-    name: 'Yusuf M.',
-    city: 'Kano',
-    destination: 'University of Regina',
-    flag: '🇨🇦',
-    country: 'Canada',
-  },
-  {
-    quote: "They told me about a scholarship during the process. It covered 40% of my first year.",
-    name: 'Adaeze N.',
-    city: 'Enugu',
-    destination: 'Griffith University',
-    flag: '🇦🇺',
-    country: 'Australia',
-  },
-  {
-    quote: "10 months from first WhatsApp message to landing at Heathrow. Everything went to plan.",
-    name: 'Chidi U.',
-    city: 'Port Harcourt',
-    destination: 'Nottingham Trent',
-    flag: '🇬🇧',
-    country: 'UK',
+    quote: "The Study Abroad Consultant handled my admission and loan process very efficiently. Everything was smooth and completed within a short time. I truly appreciate the support and will definitely refer others.",
+    name: 'Adepoju O.',
+    date: 'Mar 2022',
+    destination: '',
+    flag: '',
+    country: '',
   },
 ]
 
@@ -73,10 +49,12 @@ export function TestimonialsCarousel() {
                 <p className="text-text-secondary text-body-md italic mt-2 flex-1">{t.quote}</p>
                 <div className="mt-6 pt-4 border-t border-surface-4">
                   <p className="font-display font-semibold text-navy-900 text-body-md">{t.name}</p>
-                  <p className="text-text-muted text-body-sm">{t.city} → {t.destination}</p>
-                  <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-badge bg-surface-3 text-body-sm font-medium text-text-secondary">
-                    {t.flag} {t.country}
-                  </span>
+                  <p className="text-text-muted text-body-sm">{t.date}{t.destination ? ` · ${t.destination}` : ''}</p>
+                  {t.flag && t.country && (
+                    <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-badge bg-surface-3 text-body-sm font-medium text-text-secondary">
+                      {t.flag} {t.country}
+                    </span>
+                  )}
                 </div>
               </div>
             </SectionFade>
@@ -95,10 +73,12 @@ export function TestimonialsCarousel() {
                 <p className="text-text-secondary text-body-md italic mt-2 flex-1">{t.quote}</p>
                 <div className="mt-4 pt-4 border-t border-surface-4">
                   <p className="font-display font-semibold text-navy-900 text-body-sm">{t.name}</p>
-                  <p className="text-text-muted text-body-sm">{t.city} → {t.destination}</p>
-                  <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-badge bg-surface-3 text-body-sm font-medium text-text-secondary">
-                    {t.flag} {t.country}
-                  </span>
+                  <p className="text-text-muted text-body-sm">{t.date}{t.destination ? ` · ${t.destination}` : ''}</p>
+                  {t.flag && t.country && (
+                    <span className="inline-flex items-center gap-1.5 mt-2 px-2.5 py-0.5 rounded-badge bg-surface-3 text-body-sm font-medium text-text-secondary">
+                      {t.flag} {t.country}
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
