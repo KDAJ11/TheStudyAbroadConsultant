@@ -143,7 +143,7 @@ export async function GET(req: NextRequest) {
             {TAGLINE}
           </div>
           <div style={{ display: 'flex', gap: 16, marginTop: 20 }}>
-            {['1,000+ Students', '98% Visa Success', '50+ Universities', '10+ Years'].map((stat) => (
+            {['700+ Students', '98% Visa Success', '50+ Universities', '10+ Years'].map((stat) => (
               <div key={stat} style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 999, padding: '8px 20px', color: 'rgba(255,255,255,0.8)', fontSize: 16, fontWeight: 600, display: 'flex' }}>
                 {stat}
               </div>

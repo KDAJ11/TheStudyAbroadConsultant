@@ -241,7 +241,7 @@ function DestinationFlipCard({ dest, index }: { dest: (typeof destinations)[numb
   const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    const check = () => setIsMobile(window.matchMedia('(hover: none) and (pointer: coarse)').matches)
+    const check = () => setIsMobile(window.matchMedia('(hover: none) and (pointer: coarse)').matches || window.innerWidth < 768)
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
@@ -288,7 +288,7 @@ function DestinationFlipCard({ dest, index }: { dest: (typeof destinations)[numb
         className="relative cursor-pointer"
         style={{ transformStyle: 'preserve-3d' }}
         animate={{ rotateY: isFlipped ? 180 : 0 }}
-        transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}
+        transition={{ duration: isMobile ? 0.3 : 0.5, ease: [0.42, 0, 0.58, 1] }}
         onHoverStart={() => { if (!isMobile) setIsFlipped(true) }}
         onHoverEnd={() => { if (!isMobile) setIsFlipped(false) }}
         onClick={handleFlip}
@@ -296,7 +296,7 @@ function DestinationFlipCard({ dest, index }: { dest: (typeof destinations)[numb
         {/* ── Front face ── */}
         <div
           className={`destination-card relative block ${dest.gradient} rounded-2xl border border-surface-4 border-l-4 ${dest.borderColor} p-6`}
-          style={{ backfaceVisibility: 'hidden', willChange: 'transform' }}
+          style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', willChange: 'transform' }}
         >
           <LandmarkIcon slug={dest.slug} accentHex={dest.accentHex} isInView={isInView} />
           <span className="text-4xl block mb-3" aria-hidden="true">
@@ -318,7 +318,7 @@ function DestinationFlipCard({ dest, index }: { dest: (typeof destinations)[numb
         {/* ── Back face ── */}
         <div
           className="absolute inset-0 rounded-2xl bg-navy-900 p-6 flex flex-col justify-center border border-navy-800"
-          style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)', willChange: 'transform' }}
+          style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', transform: 'rotateY(180deg)', willChange: 'transform' }}
         >
           <span className="text-[40px] block mb-3" aria-hidden="true">
             {dest.flag}

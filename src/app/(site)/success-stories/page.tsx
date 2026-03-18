@@ -5,8 +5,8 @@ import { SITE } from '@/lib/constants'
 import { webPageSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
-  title: "Success Stories | 1,000+ Nigerian Students Placed Abroad",
-  description: "Read how 1,000+ Nigerian students achieved their study abroad dreams. Real stories from students now studying in the UK, Canada, USA, Ireland, Germany & Australia.",
+  title: "Success Stories | 700+ Nigerian Students Placed Abroad",
+  description: "Read how 700+ Nigerian students achieved their study abroad dreams. Real stories from students now studying in the UK, Canada, USA, Ireland, Germany & Australia.",
 }
 
 const distribution = [
@@ -54,7 +54,7 @@ export default function SuccessStoriesPage() {
       <section className="bg-navy-900 pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-display-2xl font-display font-bold text-white">
-            1,000+ Nigerian Students. 6 Countries. Futures Transformed.
+            700+ Nigerian Students. 6 Countries. Futures Transformed.
           </h1>
           <p className="mt-4 text-white/70 text-body-xl max-w-2xl mx-auto">
             Real stories from Nigerian students who trusted us with their study abroad journey.
@@ -66,7 +66,7 @@ export default function SuccessStoriesPage() {
       <section className="bg-white py-12 border-b border-surface-4">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <CounterStat value={1000} suffix="+" label="Students Placed" />
+            <CounterStat value={700} suffix="+" label="Students Placed" />
             <CounterStat value={98} suffix="%" label="Visa Success Rate" />
             <CounterStat value={6} label="Countries" />
             <CounterStat value={50} suffix="+" label="Universities" />
@@ -148,7 +148,7 @@ export default function SuccessStoriesPage() {
       <section className="bg-brand-red py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-display-md font-display font-bold text-white">Your Story Could Be Next</h2>
-          <p className="mt-3 text-white/90 text-body-lg">Join 1,000+ Nigerian students who turned their study abroad dream into reality.</p>
+          <p className="mt-3 text-white/90 text-body-lg">Join 700+ Nigerian students who turned their study abroad dream into reality.</p>
           <div className="mt-6">
             <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white text-brand-red font-display font-bold rounded-btn px-8 py-4 text-body-lg hover:scale-[1.02] transition-all min-h-[52px]">
               Start Your Story Today

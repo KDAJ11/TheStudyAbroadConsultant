@@ -41,6 +41,7 @@ function ListItem({
   return (
     <motion.li
       className="flex items-start gap-3"
+      style={{ willChange: 'transform' }}
       initial={prefersReducedMotion ? {} : { opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}

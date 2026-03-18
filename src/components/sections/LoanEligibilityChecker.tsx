@@ -199,6 +199,7 @@ export function LoanEligibilityChecker() {
                   role="region"
                   aria-label="Loan eligibility results"
                   aria-live="polite"
+                  style={{ willChange: 'transform' }}
                   initial={prefersReducedMotion ? {} : { opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={prefersReducedMotion ? {} : { opacity: 0, height: 0 }}

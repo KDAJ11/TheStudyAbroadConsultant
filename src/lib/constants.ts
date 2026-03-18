@@ -1,13 +1,13 @@
 export const SITE = {
   name: 'The Study Abroad Consultant',
   tagline: "Nigeria's Most Trusted Study Abroad Consultant",
-  description: 'Expert guidance for Nigerian students studying in the UK, Canada, USA, Ireland, Germany & Australia. 1,000+ students placed. 98% visa success rate.',
+  description: 'Expert guidance for Nigerian students studying in the UK, Canada, USA, Ireland, Germany & Australia. 700+ students placed. 98% visa success rate.',
   url: 'https://thestudyabroadconsultant.ca',
   whatsapp: 'https://wa.me/2348187861554',
   phone: '+234 818 786 1554',
   email: 'cc.canadastudyadvisor@gmail.com',
   stats: {
-    students: { value: 1000, display: '1,000+', label: 'Students Placed' },
+    students: { value: 700, display: '700+', label: 'Students Placed' },
     visaSuccess: { value: 98, display: '98%', label: 'Visa Success Rate' },
     universities: { value: 50, display: '50+', label: 'Partner Universities' },
     years: { value: 10, display: '10+', label: 'Years of Excellence' },

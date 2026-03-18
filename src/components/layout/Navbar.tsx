@@ -306,7 +306,7 @@ export function Navbar() {
               transition={
                 prefersReducedMotion
                   ? { duration: 0 }
-                  : { type: 'spring', stiffness: 300, damping: 30 }
+                  : { type: 'spring', stiffness: 200, damping: 28 }
               }
               style={{ willChange: 'transform' }}
             >

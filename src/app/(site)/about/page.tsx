@@ -7,7 +7,7 @@ import { SITE } from '@/lib/constants'
 import { webPageSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
-  title: 'About Us | The Study Abroad Consultant Nigeria — 10+ Years, 1,000+ Students',
+  title: 'About Us | The Study Abroad Consultant Nigeria — 10+ Years, 700+ Students',
   description: "Learn about Nigeria's most trusted study abroad consultancy. 10+ years helping Nigerian students achieve their international education goals with a 98% visa success rate.",
 }
 
@@ -52,7 +52,7 @@ export default function AboutPage() {
                 The Study Abroad Consultant was founded with a simple mission: to give every qualified Nigerian student a fair shot at international education. Too many talented young Nigerians were losing money to failed visa applications, choosing the wrong universities, and navigating complex processes without expert support.
               </p>
               <p className="text-text-secondary text-body-lg leading-relaxed mt-4">
-                Over the past decade, we&apos;ve helped over 1,000 students secure admission and visas to universities across 6 countries. Our 98% visa success rate isn&apos;t luck — it&apos;s the result of deep expertise, systematic processes, and relationships with university admission offices built over years.
+                Over the past decade, we&apos;ve helped over 700 students secure admission and visas to universities across 6 countries. Our 98% visa success rate isn&apos;t luck — it&apos;s the result of deep expertise, systematic processes, and relationships with university admission offices built over years.
               </p>
               <p className="text-text-secondary text-body-lg leading-relaxed mt-4">
                 Today, we remain focused on what we do best: helping Nigerian students — and only Nigerian students — navigate the entire study abroad journey from first consultation to first day on campus.
@@ -66,7 +66,7 @@ export default function AboutPage() {
       <section className="bg-surface-2 py-12">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-            <CounterStat value={1000} suffix="+" label="Students Placed" />
+            <CounterStat value={700} suffix="+" label="Students Placed" />
             <CounterStat value={98} suffix="%" label="Visa Success Rate" />
             <CounterStat value={50} suffix="+" label="Partner Universities" />
             <CounterStat value={10} suffix="+" label="Years of Excellence" />

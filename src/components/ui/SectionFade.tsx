@@ -28,6 +28,7 @@ export function SectionFade({ children, delay = 0, direction = 'up', className }
     <motion.div
       ref={ref}
       className={className}
+      style={{ willChange: 'transform' }}
       initial={{
         opacity: 0,
         ...(prefersReducedMotion ? {} : { y: offset.y, x: offset.x }),

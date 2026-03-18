@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: "Nigeria's Most Trusted Study Abroad Consultant | UK, Canada, USA",
     template: '%s | The Study Abroad Consultant',
   },
-  description: 'Expert guidance for Nigerian students studying in the UK, Canada, USA, Ireland, Germany & Australia. 1,000+ students placed. 98% visa success rate.',
+  description: 'Expert guidance for Nigerian students studying in the UK, Canada, USA, Ireland, Germany & Australia. 700+ students placed. 98% visa success rate.',
   openGraph: {
     type: 'website',
     locale: 'en_NG',
