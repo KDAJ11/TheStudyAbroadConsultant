@@ -84,7 +84,7 @@ export function Hero() {
   const prefersReducedMotion = useReducedMotion()
   const reduced = !!prefersReducedMotion
 
-  const studentsCount = useCountUp(398, 1.8, 0.8, !reduced)
+  const studentsCount = useCountUp(700, 1.8, 0.8, !reduced)
   const visaCount = useCountUp(98, 1.5, 0.8, !reduced)
 
   // Expo ease-out for framer variants
@@ -170,7 +170,7 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.8, ease }}
           >
-            ✓ {reduced ? '398' : studentsCount}+ Students Placed&nbsp;&nbsp;✓ {reduced ? '98' : visaCount}% Visa Success Rate&nbsp;&nbsp;
+            ✓ {reduced ? '700' : studentsCount}+ Students Placed&nbsp;&nbsp;✓ {reduced ? '98' : visaCount}% Visa Success Rate&nbsp;&nbsp;
             <motion.span
               initial={reduced ? {} : { opacity: 0 }}
               animate={{ opacity: 1 }}

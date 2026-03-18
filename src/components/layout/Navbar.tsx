@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { SITE } from '@/lib/constants'
 
 const navLinks = [
@@ -15,6 +16,7 @@ const navLinks = [
     children: [
       { href: '/scholarships', label: 'Scholarships' },
       { href: '/blog', label: 'Blog' },
+      { href: '/success-stories', label: 'Success Stories' },
     ],
   },
   { href: '/about', label: 'About' },
@@ -34,19 +36,26 @@ export function Navbar() {
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false)
   const pathname = usePathname()
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const prefersReducedMotion = useReducedMotion()
 
+  // Scroll handler
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Close on route change
   useEffect(() => {
     setIsMobileOpen(false)
     setResourcesOpen(false)
     setMobileResourcesOpen(false)
   }, [pathname])
 
+  // Body scroll lock
   useEffect(() => {
     if (isMobileOpen) {
       document.body.style.overflow = 'hidden'
@@ -56,6 +65,52 @@ export function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [isMobileOpen])
 
+  // Escape key to close drawer
+  useEffect(() => {
+    if (!isMobileOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsMobileOpen(false)
+        hamburgerRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isMobileOpen])
+
+  // Focus trap inside drawer
+  useEffect(() => {
+    if (!isMobileOpen || !drawerRef.current) return
+    // Focus the close button on open
+    const timer = setTimeout(() => closeButtonRef.current?.focus(), 50)
+
+    const drawer = drawerRef.current
+    const focusableSelector = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const focusables = drawer.querySelectorAll<HTMLElement>(focusableSelector)
+      if (focusables.length === 0) return
+      const first = focusables[0]
+      const last = focusables[focusables.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', handleTab)
+    return () => {
+      clearTimeout(timer)
+      document.removeEventListener('keydown', handleTab)
+    }
+  }, [isMobileOpen])
+
+  // Click outside dropdown
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
@@ -66,8 +121,34 @@ export function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const isHome = pathname === '/'
-  const showTransparent = isHome && !isScrolled
+  const showTransparent = !isScrolled
+
+  const closeMobile = useCallback(() => {
+    setIsMobileOpen(false)
+    setMobileResourcesOpen(false)
+  }, [])
+
+  // Drawer animation variants
+  const scrimVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+    exit: { opacity: 0 },
+  }
+
+  const drawerVariants = {
+    hidden: { x: '100%' },
+    visible: { x: 0 },
+    exit: { x: '100%' },
+  }
+
+  const linkVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      x: 0,
+      transition: { delay: 0.15 + i * 0.05, duration: 0.3, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+    }),
+  }
 
   return (
     <>
@@ -80,7 +161,9 @@ export function Navbar() {
       <nav
         role="navigation"
         aria-label="Main navigation"
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all ${
+          prefersReducedMotion ? 'duration-0' : 'duration-300'
+        } ${
           showTransparent
             ? 'bg-transparent'
             : 'bg-white/98 backdrop-blur-sm shadow-nav'
@@ -98,6 +181,7 @@ export function Navbar() {
               The Study Abroad<br className="sm:hidden" /> Consultant
             </Link>
 
+            {/* Desktop nav links */}
             <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => {
                 if (isDropdown(link)) {
@@ -163,6 +247,7 @@ export function Navbar() {
               })}
             </div>
 
+            {/* Desktop CTA */}
             <div className="hidden lg:block">
               <a
                 href={SITE.whatsapp}
@@ -175,7 +260,9 @@ export function Navbar() {
               </a>
             </div>
 
+            {/* Mobile hamburger */}
             <button
+              ref={hamburgerRef}
               className={`lg:hidden p-2 rounded-btn transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center ${
                 showTransparent ? 'text-white' : 'text-navy-900'
               }`}
@@ -189,65 +276,155 @@ export function Navbar() {
         </div>
       </nav>
 
-      {isMobileOpen && (
-        <div className="fixed inset-0 z-40 bg-navy-900 lg:hidden">
-          <div className="flex flex-col items-center justify-center h-full gap-6 pt-[72px]">
-            {navLinks.map((link) => {
-              if (isDropdown(link)) {
-                return (
-                  <div key={link.label} className="flex flex-col items-center">
-                    <button
-                      onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
-                      aria-expanded={mobileResourcesOpen}
-                      aria-label="Resources menu"
-                      className="flex items-center gap-2 text-white text-display-sm font-display hover:text-sky-300 transition-colors cursor-pointer"
-                    >
-                      {link.label}
-                      <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${mobileResourcesOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    {mobileResourcesOpen && (
-                      <div className="mt-3 flex flex-col items-center gap-3">
-                        {link.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="text-white/70 text-body-lg font-display hover:text-sky-300 transition-colors"
-                            onClick={() => setIsMobileOpen(false)}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )
-              }
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isMobileOpen && (
+          <>
+            {/* Scrim */}
+            <motion.div
+              className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+              variants={scrimVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.2 }}
+              onClick={closeMobile}
+              aria-hidden="true"
+            />
 
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-white text-display-sm font-display hover:text-sky-300 transition-colors"
-                  onClick={() => setIsMobileOpen(false)}
+            {/* Drawer panel */}
+            <motion.div
+              ref={drawerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
+              className="fixed right-0 top-0 h-full w-[80vw] max-w-[320px] z-50 bg-navy-900 lg:hidden overflow-y-auto"
+              variants={drawerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { type: 'spring', stiffness: 300, damping: 30 }
+              }
+              style={{ willChange: 'transform' }}
+            >
+              {/* Drawer header */}
+              <div className="flex items-center justify-between px-6 h-[72px]">
+                <span className="font-display font-semibold text-lg text-white tracking-tight">
+                  The Study Abroad<br className="sm:hidden" /> Consultant
+                </span>
+                <button
+                  ref={closeButtonRef}
+                  onClick={closeMobile}
+                  aria-label="Close navigation menu"
+                  className="p-2 rounded-btn text-white hover:text-sky-300 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 >
-                  {link.label}
-                </Link>
-              )
-            })}
-            <div className="mt-4">
-              <a
-                href={SITE.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Book a Consultation on WhatsApp"
-                className="inline-flex items-center justify-center gap-2 font-display font-semibold text-body-lg px-8 py-4 min-h-[52px] bg-white text-navy-900 rounded-[4px] transition-all duration-200 hover:bg-sky-50"
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Divider */}
+              <div className="mx-6 border-t border-white/15" />
+
+              {/* Nav links */}
+              <div className="py-4">
+                {navLinks.map((link, index) => {
+                  if (isDropdown(link)) {
+                    return (
+                      <motion.div
+                        key={link.label}
+                        custom={index}
+                        variants={prefersReducedMotion ? undefined : linkVariants}
+                        initial={prefersReducedMotion ? undefined : 'hidden'}
+                        animate={prefersReducedMotion ? undefined : 'visible'}
+                      >
+                        <button
+                          onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+                          aria-expanded={mobileResourcesOpen}
+                          aria-label="Resources menu"
+                          className="flex items-center justify-between w-full py-4 px-6 text-white text-body-lg font-display font-medium hover:text-sky-300 transition-colors cursor-pointer"
+                        >
+                          {link.label}
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform duration-200 ${
+                              mobileResourcesOpen ? 'rotate-180' : ''
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {mobileResourcesOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              {link.children.map((child) => (
+                                <Link
+                                  key={child.href}
+                                  href={child.href}
+                                  className="block py-3 px-10 text-white/70 text-body-md font-display hover:text-sky-300 transition-colors"
+                                  onClick={closeMobile}
+                                >
+                                  {child.label}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    )
+                  }
+
+                  return (
+                    <motion.div
+                      key={link.href}
+                      custom={index}
+                      variants={prefersReducedMotion ? undefined : linkVariants}
+                      initial={prefersReducedMotion ? undefined : 'hidden'}
+                      animate={prefersReducedMotion ? undefined : 'visible'}
+                    >
+                      <Link
+                        href={link.href}
+                        className="block py-4 px-6 text-white text-body-lg font-display font-medium hover:text-sky-300 transition-colors"
+                        onClick={closeMobile}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  )
+                })}
+              </div>
+
+              {/* Divider */}
+              <div className="mx-6 border-t border-white/15" />
+
+              {/* CTA button */}
+              <motion.div
+                className="px-6 py-6"
+                custom={navLinks.length}
+                variants={prefersReducedMotion ? undefined : linkVariants}
+                initial={prefersReducedMotion ? undefined : 'hidden'}
+                animate={prefersReducedMotion ? undefined : 'visible'}
               >
-                Book a Consultation
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+                <a
+                  href={SITE.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Book a Consultation on WhatsApp"
+                  className="flex items-center justify-center w-full font-display font-semibold text-body-lg px-8 py-4 min-h-[52px] bg-brand-red text-white rounded-[4px] transition-all duration-200 hover:bg-brand-red-hover"
+                  onClick={closeMobile}
+                >
+                  Book a Consultation
+                </a>
+              </motion.div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </>
   )
 }

@@ -91,7 +91,7 @@ export default function ScholarshipsPage() {
       </section>
 
       {/* Filters */}
-      <section className="bg-surface-2 py-8 sticky top-[72px] z-20 border-b border-surface-4">
+      <section className="bg-surface-2 py-8 relative border-b border-surface-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-4">
             <Filter className="w-5 h-5 text-text-muted" />
